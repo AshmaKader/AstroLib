@@ -6,18 +6,11 @@ import pandas as pd
    
 # Create a connection object,
 # Make a new db if not exist already 
-# and connect it, if exist then connect.
+# and connect it, if exist then connect.2
 def Astrolib(date):
-  connection = sq.connect('Astrology.db')
+  connection = sq.connect('./Sq4 few data.db')
   # Create a cursor object
   curs = connection.cursor()
-  # Run create table sql query
-  curs.execute("create table if not exists Planets" +
-             " (Date text, Sun text,Moon text,Mercury text,Venus text,Mars text,Jupiter text,Saturn text,Uranus text,Neptune text,Pluto text,mean_Node text)")
-  # Load CSV data into Pandas DataFrame
-  student = pd.read_csv("./Planets.csv")
-  # Write the data to a sqlite db table
-  student.to_sql('Planets', connection, if_exists='replace', index=False)
   
   curs.execute("SELECT * FROM Planets WHERE Date=?", (date,))
   rows=curs.fetchall() 
