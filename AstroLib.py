@@ -1,19 +1,21 @@
+#Import sqlite3 for database connection and operation.
 import sqlite3 as sq
  
-# Import pandas module into
-# this program as pd
+# Import pandas module into this program as pd
 import pandas as pd
-   
-# Create a connection object,
-# Make a new db if not exist already 
-# and connect it, if exist then connect.2
-def Astrolib(date):
+
+def connectDatabase():
+  # Create a Database connection object
   connection = sq.connect('./Sq4 few data.db')
-  # Create a cursor object
+  return connection
+def getPlanets(connection,date):
+  # Create a cursor object.
   curs = connection.cursor()
-  
+  #Querying the Database.
   curs.execute("SELECT * FROM Planets WHERE Date=?", (date,))
-  rows=curs.fetchall() 
+  #Fetching Records from the databse.
+  rows=curs.fetchall()
+  #printing the Records.
   for row in rows:
     print("Sun: "+str(row[1]))
     print("Moon: "+str(row[2]))
@@ -29,5 +31,7 @@ def Astrolib(date):
     print("")
   # Close connection to SQLite database
   connection.close()
-date=input("Enter Date(IN YYYYMMDD Format):")  #Testing:Enter Date 20000102
-Astrolib=Astrolib(date)
+if __name__ == "__main__":
+  db_connection=connectDatabase()
+  date=input("Enter Date(IN YYYYMMDD Format):")  #Testing:Enter Date 20000102
+  getPlanets(db_connection,date)
